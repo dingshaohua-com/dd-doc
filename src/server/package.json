@@ -1,0 +1,22 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "startSequence": 1,
+  "scripts": {
+    "dev": "ts-node-dev ./app.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@koa/router": "^13.1.0",
+    "koa": "^2.16.0",
+    "koa-combine-routers": "^4.0.2"
+  },
+  "devDependencies": {
+    "@types/koa__router": "^12.0.4",
+    "ts-node-dev": "^2.0.0"
+  }
+}

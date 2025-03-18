@@ -1,0 +1,17 @@
+{
+  "name": "dd-doc",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --experimental-transform-types ./bin/dev.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/koa": "^2.15.0",
+    "@types/node": "^22.13.10"
+  }
+}
