@@ -1,0 +1,23 @@
+.editor-wrapp {
+  width: 100%;
+
+  .editor {
+    display: flex;
+    height: 100%;
+
+    &>div {
+      flex: 1;
+      
+    }
+
+    .md-editor {
+      border-right: rgba($color: #000000, $alpha: 0.1) solid 1px;
+    }
+
+    // border: rgba($color: #000000, $alpha: 0.08) solid 1px;
+    // border-left: none;
+    // border-right: none;
+
+  }
+
+}
