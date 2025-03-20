@@ -2,36 +2,30 @@ import { useState } from "react";
 import "./style.scss";
 import MenuBar from "@/components/menu-bar";
 import MarkdownIt from "markdown-it";
-import { container } from "@mdit/plugin-container";
 import mdcont from "markdown-it-container";
 import hljs from "highlight.js";
+import "highlight.js/styles/atom-one-dark.min.css";
 
-const highlight = (str, lang) => {
-  if (lang && hljs.getLanguage(lang)) {
-    try {
-      return hljs.highlight(lang, str).value;
-    } catch (__) {}
+const md = MarkdownIt({
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return '<pre><code class="hljs">' +
+               hljs.highlight(str, { language: lang, ignoreIllegals: true }).value +
+               '</code></pre>';
+      } catch (__) {}
+    }
+
+    return '<pre><code class="hljs">' + md.utils.escapeHtml(str) + '</code></pre>';
   }
-  return ""; // 使用额外的默认转义
-};
-const md = MarkdownIt();
-md.set({ highlight });
+});
 md.use(mdcont, "tip");
 md.use(mdcont, "danger");
 function App() {
-  const [content, setContent] = useState(`
-::: tip
-你好我是 tip 类型的自定义容器
-:::
-
-## 🙂🙂🙂🙂🙂
-
-
-`);
+  const [content, setContent] = useState("");
   const onContentIpt = (event: any) => {
     setContent(event.target.value);
   };
-
   return (
     <div className="editor-wrapp">
       <MenuBar editor={{} as any} />
