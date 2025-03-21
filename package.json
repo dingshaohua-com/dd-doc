@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "node --experimental-transform-types ./bin/dev.ts"
+    "dev": "node --experimental-transform-types ./bin/dev.ts",
+    "build": "node --experimental-transform-types ./bin/build.js",
+    "start": "node --experimental-transform-types ./bin/start.js"
   },
   "keywords": [],
   "author": "",
