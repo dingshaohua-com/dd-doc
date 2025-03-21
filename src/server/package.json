@@ -5,8 +5,10 @@
   "main": "index.js",
   "startSequence": 1,
   "scripts": {
-    "dev": "ts-node-dev ./app.ts"
+    "dev": "ts-node-dev ./app.ts",
+    "postinstall": "npx prisma generate"
   },
+
   "keywords": [],
   "author": "",
   "license": "ISC",
