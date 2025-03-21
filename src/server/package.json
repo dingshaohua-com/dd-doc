@@ -12,8 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "@koa/router": "^13.1.0",
+    "@prisma/client": "^6.5.0",
     "koa": "^2.16.0",
-    "koa-combine-routers": "^4.0.2"
+    "koa-combine-routers": "^4.0.2",
+    "mysql2": "^3.14.0",
+    "prisma": "^6.5.0"
   },
   "devDependencies": {
     "@types/koa__router": "^12.0.4",
