@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "node --experimental-transform-types ./bin/dev.ts",
     "build": "node --experimental-transform-types ./bin/build.ts",
-    "start": "node --experimental-transform-types ./bin/start.ts"
+    "start": "node ./bin/start.js"
   },
   "keywords": [],
   "author": "",
