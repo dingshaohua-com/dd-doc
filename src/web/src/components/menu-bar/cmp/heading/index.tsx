@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './style.scss';
 import { Select } from 'antd';
 
