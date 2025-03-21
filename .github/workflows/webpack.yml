@@ -1,0 +1,47 @@
+name: 打包和部署官网
+
+on:
+  push:
+    branches: ["main"]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 迁出代码
+        uses: actions/checkout@main
+
+      - name: 安装pnpm
+        uses: pnpm/action-setup@master
+        with:
+          version: 9
+
+      - name: 安装Node
+        uses: actions/setup-node@main
+        with:
+          node-version: "22.x"
+
+      - name: 安装依赖
+        run: pnpm i
+
+      - name: 打包
+        run: npm run build
+
+      - name: 发布到服务器
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: "-avzr --delete --mkpath"
+          SOURCE: "/"
+          EXCLUDE: '/node_modules/, /src/web/node_modules/, /src/server/node_modules/'
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
+          REMOTE_USER: root
+          TARGET: /home/apps-root/dd-doc/
+          SCRIPT_AFTER: |
+            cd /home/apps-root/dd-doc
+            echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> ./server/.env
+            pnpm i
+            pm2 list | grep -q "dd-doc" && pm2 delete dd-doc
+            pm2 start npm --name dd-doc -- dev
+                
