@@ -40,7 +40,7 @@ jobs:
           TARGET: /home/apps-root/dd-doc/
           SCRIPT_AFTER: |
             cd /home/apps-root/dd-doc
-            echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> ./server/.env
+            echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> ./src/server/.env
             pnpm i
             pm2 list | grep -q "dd-doc" && pm2 delete dd-doc
             pm2 start npm --name dd-doc -- dev
