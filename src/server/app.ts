@@ -1,9 +1,11 @@
 import Koa from "koa";
 import router from "./router/index.ts";
 import staticServer from "koa-static";
+import { bodyParser } from "@koa/bodyparser";
 
 const app = new Koa();
 
+app.use(bodyParser());
 app.use(staticServer("./www"));
 app.use(router());
 

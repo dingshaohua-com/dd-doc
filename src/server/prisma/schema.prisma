@@ -8,13 +8,23 @@ datasource db {
 }
 
 model book {
-  id    Int     @id @default(autoincrement())
-  name  String? @db.VarChar(255)
-  des   String? @db.VarChar(255)
-  cover String? @db.VarChar(255)
+  id          Int       @id @default(autoincrement())
+  name        String?   @db.VarChar(255)
+  sort        Int?
+  des         String?   @db.VarChar(255)
+  cover       String?   @db.VarChar(255)
+  create_time DateTime? @default(now()) @db.Timestamp(0)
+  type_id     Int?
+  type        type?     @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "book_ibfk_1")
+
+  @@index([type_id], map: "type_id")
 }
 
-model doc_type {
-  id   Int     @id @default(autoincrement())
-  name String? @db.VarChar(255)
+model type {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  sort        Int?
+  des         String?  @db.VarChar(255)
+  create_time DateTime @default(now()) @db.Timestamp(0)
+  book        book[]
 }
