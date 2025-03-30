@@ -12,7 +12,11 @@ const router = createBrowserRouter([
         index: true,
         // path: "home",
         // Component: Home,
-        Component: lazy(() => import("@/pages/books")),
+        Component: lazy(() => import("@/pages/book")),
+      },
+      {
+        path: "detail",
+        Component: lazy(() => import("@/pages/detail")),
       },
     ],
   },
