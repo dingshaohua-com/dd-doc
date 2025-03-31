@@ -4,30 +4,44 @@ import _ from "lodash";
 
 const prisma = new PrismaClient();
 
+const queryOne = async (ctx) => {
+    const results = await prisma.doc.findFirst({
+        where: ctx.query,
+    });
+    return results;
+}
 
+const queryList = async (ctx) => {
+    const results = await prisma.doc.findMany({
+        where: ctx.query,
+        omit: { des: true }
+    });
+    return results;
+}
 
 const router = new Router({ prefix: "/doc" });
 router.get("/", async (ctx) => {
-    console.log(11111, ctx.query);
-    let prismaParams: any = {};
-    const queryParams = _.cloneDeep((ctx.query || {}));
-    if (queryParams.includeBook) {
-        prismaParams['include'] = {
-            book: true
-        };
-        delete queryParams.includeBook;
+    ctx.query.book_id&&(ctx.query.book_id = Number(ctx.query.book_id) as any);
+    const isQueryOne = ctx.query.id;
+    if (isQueryOne) {
+        ctx.query.id = Number(ctx.query.id) as any;
+        ctx.body = await queryOne(ctx);
+    } else {
+        ctx.body = await queryList(ctx);
     }
-    Object.keys(queryParams).length > 0 && (prismaParams.select = queryParams);
-    console.log(22222, prismaParams);
-    
-    const results = await prisma.doc.findMany(prismaParams);
-    ctx.body = results;
 });
 
-
-
 router.post('/', async (ctx) => {
-    const results = await prisma.doc.create({ data: ctx.request.body });
+    const bodyParams = ctx.request.body;
+    bodyParams['book_id'] = Number(bodyParams['book_id']);
+    const results = await prisma.doc.create({ data: bodyParams });
+    ctx.body = results;
+})
+
+router.put('/', async (ctx) => {
+    const bodyParams = _.cloneDeep(ctx.request.body);
+    const results = await prisma.doc.update({ where: { id: bodyParams.id }, data: bodyParams });
     ctx.body = results;
 })
 export default router;
+

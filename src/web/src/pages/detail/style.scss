@@ -20,7 +20,7 @@
     display: flex;
     flex: 1;
 
-    .docs {
+    .docs-wrapp {
       width: 200px;
       background-color: rgba($color: blue, $alpha: 0.1);
       .title {
@@ -33,6 +33,17 @@
         gap: 6px;
         img {
           width: 30px;
+        }
+      }
+      .docs{
+        padding: 10px;
+        .doc{
+          padding: 6px;
+          text-align: left;
+          border-radius: 4px;
+        }
+        .doc-active{
+          background-color: white;
         }
       }
     }

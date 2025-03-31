@@ -29,18 +29,31 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+const queryOne = async (ctx) => {
+    const results = await prisma.book.findFirst({
+        where: ctx.query,
+    });
+    return results;
+}
 
+const queryList = async (ctx) => {
+    const results = await prisma.book.findMany({
+        where: ctx.query,
+        omit: { des: true }
+    });
+    return results;
+}
 
 const router = new Router({ prefix: "/book" });
 router.get("/", async (ctx) => {
-    let results;
-    if (Object.keys(ctx.query).length > 0) {
-        results = await prisma.book.findFirst({ select: ctx.query });
+    ctx.query.book_id&&(ctx.query.book_id = Number(ctx.query.book_id) as any);
+    const isQueryOne = ctx.query.id;
+    if (isQueryOne) {
+        ctx.query.id = Number(ctx.query.id) as any;
+        ctx.body = await queryOne(ctx);
     } else {
-        results = await prisma.book.findMany();
+        ctx.body = await queryList(ctx);
     }
-
-    ctx.body = results;
 });
 
 // router.get("/withType", async (ctx) => {
