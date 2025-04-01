@@ -15,7 +15,10 @@ const Editor: React.FC<EditorProps> = (props) => {
   };
   return (
     <div className="editor-wrapp">
+      <div className="menubar-wrapp">
       <MenuBar editor={{} as any} />
+      </div>
+     
       <div className="editor">
         <textarea
           className="md-editor"

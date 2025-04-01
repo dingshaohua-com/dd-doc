@@ -1,95 +1,104 @@
 .detail-cmp {
   width: 100%;
-  // height: 100%;
-  height: 100vh; /* 或其他固定高度 */
+  height: 100%;
   margin: auto;
   display: flex;
-  flex-direction: column;
 
-  .navbar {
-    background-color: rgba($color: #000000, $alpha: 0.1);
-    height: 60px;
-    flex-shrink: 0;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
 
-  .content {
-    display: flex;
-    flex: 1;
+  .left-bar {
+    width: 260px;
+    background-color: rgba($color: blue, $alpha: 0.1);
 
-    .docs-wrapp {
-      width: 200px;
-      background-color: rgba($color: blue, $alpha: 0.1);
-      .title {
+    .title {
+      display: flex;
+      align-items: center;
+      height: 50px;
+      font-weight: 700;
+      font-size: 16px;
+      gap: 6px;
+
+
+      .title-inner {
+        align-content: center;
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 50px;
-        font-weight: 700;
-        font-size: 16px;
-        gap: 6px;
-        img {
-          width: 30px;
-        }
       }
-      .docs {
-        padding: 10px;
-        .doc {
-          padding: 6px;
-          border-radius: 4px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
 
-          @mixin tools-base {
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            display: none;
-          }
-          .tools {
-            @include tools-base;
-          }
-          &:hover {
-            .tools {
-              @include tools-base;
-              display: block;
-            }
-          }
-        }
-        .doc-active {
-          background-color: white;
-        }
+      img {
+        width: 30px;
+        cursor: pointer;
       }
     }
-    .editor-one {
-      flex: 1;
-      display: flex;
-      overflow-y: auto;
-      min-height: 0; /* 关键属性 */
 
-      // display: flex;
-      .no-data {
-        // flex: 1;
+    .docs {
+      padding: 10px;
+
+      .doc {
+        padding: 6px;
+        border-radius: 4px;
         display: flex;
         align-items: center;
-        justify-content: center;
-        text-align: center;
+        justify-content: space-between;
 
-        div {
+        @mixin tools-base {
           cursor: pointer;
-          color: rgba($color: #000000, $alpha: 0.5);
+          display: flex;
+          align-items: center;
+          display: none;
+        }
+
+        .tools {
+          @include tools-base;
+        }
+
+        &:hover {
+          .tools {
+            @include tools-base;
+            display: block;
+          }
         }
       }
 
-      .data {
-        width: 100%;
+      .doc-active {
+        background-color: white;
       }
+    }
+  }
+
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    .top-bar {
+      background-color: rgba($color: #000000, $alpha: 0.1);
+      height: 40px;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .no-data {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      div {
+        cursor: pointer;
+        color: rgba($color: #000000, $alpha: 0.5);
+      }
+    }
+
+    .have-data {
+      flex: 1;
+      width: 100%;
+      overflow: hidden;
     }
   }
 }

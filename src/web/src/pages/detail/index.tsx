@@ -8,9 +8,12 @@ import { useSearchParams } from "react-router";
 import libImg from "@/assets/lib.svg";
 import cs from "classnames";
 import moreImg from "@/assets/more.svg";
+import backImg from '@/assets/back.svg'
 import type { MenuProps } from "antd";
+import { useNavigate } from "react-router";
 
 function Detail() {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const book_id = searchParams.get("id");
 
@@ -62,6 +65,10 @@ function Detail() {
       setContent(res.des || "");
     }
   };
+
+  const goHome = ()=>{
+    navigate('/')
+  }
   useEffect(() => {
     syncContent();
   }, [activeDoc]);
@@ -78,57 +85,64 @@ function Detail() {
   ];
   return (
     <div className="detail-cmp">
-      <div className="navbar">
-        <div></div>
-        <div>
-          <Button type="primary" onClick={toSave}>
-            保存
-          </Button>
-        </div>
-      </div>
-      <div className="content">
-        <div className="docs-wrapp">
-          <div className="title">
-            {" "}
+      <div className="left-bar">
+        <div className="title">
+          <img className="back" src={backImg} onClick={goHome}/>
+          <div className="title-inner">
             <img src={libImg} /> {type.name}
           </div>
-          <Divider />
-          <div className="docs">
-            {docs.map((doc) => (
-              <div
-                key={doc.id}
-                className={cs("doc", { "doc-active": doc.id === activeDoc })}
-                onClick={() => onClickDoc(doc.id)}
-              >
-                {doc.name}
-                <div className="tools">
-                  <Dropdown menu={{ items, onClick }} trigger={["click"]}>
-                    <img src={moreImg} onClick={(e) => e.preventDefault()} />
-                  </Dropdown>
-                </div>
+
+        </div>
+        <Divider />
+        <div className="docs">
+          {docs.map((doc) => (
+            <div
+              key={doc.id}
+              className={cs("doc", { "doc-active": doc.id === activeDoc })}
+              onClick={() => onClickDoc(doc.id)}
+            >
+              {doc.name}
+              <div className="tools">
+                <Dropdown menu={{ items, onClick }} trigger={["click"]}>
+                  <img src={moreImg} onClick={(e) => e.preventDefault()} />
+                </Dropdown>
               </div>
-            ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+
+      <div className="main">
+        <div className="top-bar">
+          <div>
+
+          </div>
+          <div>
+            <Button type="primary" onClick={toSave}>
+              保存
+            </Button>
           </div>
         </div>
-        <div className="editor-one">
-          {docs.length > 0 ? (
-            <div className="data">
-              <Editor content={content} setContent={setContent} />
-            </div>
-          ) : (
-            <div className="no-data">
-              <div>
-                <img src={noDocImg} />
-                <div onClick={createDoc}>
-                  <PlusCircleOutlined /> 创建第一篇
-                </div>
+        {docs.length > 0 ? (
+          <div className="have-data">
+            <Editor content={content} setContent={setContent} />
+          </div>
+        ) : (
+          <div className="no-data">
+            <div>
+              <img src={noDocImg} />
+              <div onClick={createDoc}>
+                <PlusCircleOutlined /> 创建第一篇
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
 }
+
+
 
 export default Detail;
