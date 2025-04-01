@@ -1,22 +1,23 @@
 import "./style.scss";
 import { useEffect, useState } from "react";
-import { Button, Divider } from "antd";
+import { Button, Divider, Dropdown } from "antd";
 import Editor from "@/components/editor";
 import noDocImg from "@/assets/no-doc.svg";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { useSearchParams } from "react-router";
-import libImg from "@/assets/lib.svg"
-import cs from 'classnames';
+import libImg from "@/assets/lib.svg";
+import cs from "classnames";
+import moreImg from "@/assets/more.svg";
+import type { MenuProps } from "antd";
 
 function Detail() {
   const [searchParams] = useSearchParams();
   const book_id = searchParams.get("id");
 
-
   // const [showEditor, setShowEditor] = useState(false);
   const [content, setContent] = useState("");
 
-  const [type, setType] = useState({ name: '' });
+  const [type, setType] = useState({ name: "" });
   const syncType = async () => {
     const res = await api.type.get({ id: book_id });
     setType(res);
@@ -24,7 +25,7 @@ function Detail() {
 
   const [docs, setDocs] = useState([]);
   const syncDocs = async () => {
-    const res = await api.doc.get({book_id});
+    const res = await api.doc.get({ book_id });
     setDocs(res);
     setActiveDoc(res.at(0).id);
   };
@@ -33,28 +34,48 @@ function Detail() {
 
   const toSave = async () => {
     console.log(111, content);
-    const res = await api.doc.put({id: activeDoc, des: content});
+    const res = await api.doc.put({ id: activeDoc, des: content });
   };
 
   const createDoc = async () => {
-    const res = await api.doc.add({ name: '无标题文档', book_id });
+    const res = await api.doc.add({ name: "无标题文档", book_id });
     syncDocs();
-  }
+  };
+  const onClick: MenuProps["onClick"] = ({ key }) => {
+    if (key === "add") {
+      createDoc();
+    }
+  };
+
+  const onClickDoc = (id) => {
+    setActiveDoc(id);
+  };
 
   useEffect(() => {
     syncType();
     syncDocs();
   }, []);
 
-  const syncContent = async()=>{
-    if(activeDoc){
-      const res = await api.doc.get({id: activeDoc});
-      setContent(res.des||'');
+  const syncContent = async () => {
+    if (activeDoc) {
+      const res = await api.doc.get({ id: activeDoc });
+      setContent(res.des || "");
     }
-  }
-  useEffect(()=>{
+  };
+  useEffect(() => {
     syncContent();
-  },[activeDoc])
+  }, [activeDoc]);
+
+  const items: MenuProps["items"] = [
+    {
+      key: "add",
+      label: <span>新增</span>,
+    },
+    {
+      key: "2",
+      label: <span>删除</span>,
+    },
+  ];
   return (
     <div className="detail-cmp">
       <div className="navbar">
@@ -67,19 +88,30 @@ function Detail() {
       </div>
       <div className="content">
         <div className="docs-wrapp">
-          <div className="title"> <img src={libImg} /> {type.name}</div>
+          <div className="title">
+            {" "}
+            <img src={libImg} /> {type.name}
+          </div>
           <Divider />
           <div className="docs">
-            {docs.map(doc => <div key={doc.id} className={cs('doc', {'doc-active': doc.id===activeDoc})}>
-              {doc.name}
-            </div>)
-
-            }
-
+            {docs.map((doc) => (
+              <div
+                key={doc.id}
+                className={cs("doc", { "doc-active": doc.id === activeDoc })}
+                onClick={() => onClickDoc(doc.id)}
+              >
+                {doc.name}
+                <div className="tools">
+                  <Dropdown menu={{ items, onClick }} trigger={["click"]}>
+                    <img src={moreImg} onClick={(e) => e.preventDefault()} />
+                  </Dropdown>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-        <div className="editor">
-          {(docs.length > 0) ? (
+        <div className="editor-one">
+          {docs.length > 0 ? (
             <div className="data">
               <Editor content={content} setContent={setContent} />
             </div>

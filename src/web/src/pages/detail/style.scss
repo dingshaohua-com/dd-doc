@@ -1,6 +1,7 @@
 .detail-cmp {
   width: 100%;
-  height: 100%;
+  // height: 100%;
+  height: 100vh; /* 或其他固定高度 */
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -8,6 +9,7 @@
   .navbar {
     background-color: rgba($color: #000000, $alpha: 0.1);
     height: 60px;
+    flex-shrink: 0;
     width: 100%;
     box-sizing: border-box;
     padding: 0 20px;
@@ -35,24 +37,45 @@
           width: 30px;
         }
       }
-      .docs{
+      .docs {
         padding: 10px;
-        .doc{
+        .doc {
           padding: 6px;
-          text-align: left;
           border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          @mixin tools-base {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            display: none;
+          }
+          .tools {
+            @include tools-base;
+          }
+          &:hover {
+            .tools {
+              @include tools-base;
+              display: block;
+            }
+          }
         }
-        .doc-active{
+        .doc-active {
           background-color: white;
         }
       }
     }
-    .editor {
+    .editor-one {
       flex: 1;
       display: flex;
+      overflow-y: auto;
+      min-height: 0; /* 关键属性 */
 
+      // display: flex;
       .no-data {
-        flex: 1;
+        // flex: 1;
         display: flex;
         align-items: center;
         justify-content: center;
