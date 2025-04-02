@@ -41,7 +41,9 @@ function Detail() {
   };
 
   const createDoc = async () => {
-    const res = await api.doc.add({ name: "无标题文档", book_id });
+    const params:any = { name: "无标题文档", book_id };
+    params.pid = activeDoc;
+    const res = await api.doc.add(params);
     syncDocs();
   };
   const onClick: MenuProps["onClick"] = ({ key }) => {
