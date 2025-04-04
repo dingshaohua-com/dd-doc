@@ -1,16 +1,15 @@
 import "./style.scss";
 import { useEffect, useState } from "react";
-import { Button, Divider, Dropdown } from "antd";
+import { Button, Divider } from "antd";
 import Editor from "@/components/editor";
 import noDocImg from "@/assets/no-doc.svg";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { useSearchParams } from "react-router";
 import libImg from "@/assets/lib.svg";
-import cs from "classnames";
-import moreImg from "@/assets/more.svg";
-import backImg from '@/assets/back.svg'
+import backImg from "@/assets/back.svg";
 import type { MenuProps } from "antd";
 import { useNavigate } from "react-router";
+import DocNav from "@/components/doc-nav";
 
 function Detail() {
   const navigate = useNavigate();
@@ -41,7 +40,7 @@ function Detail() {
   };
 
   const createDoc = async () => {
-    const params:any = { name: "无标题文档", book_id };
+    const params: any = { name: "无标题文档", book_id };
     params.pid = activeDoc;
     const res = await api.doc.add(params);
     syncDocs();
@@ -68,9 +67,9 @@ function Detail() {
     }
   };
 
-  const goHome = ()=>{
-    navigate('/')
-  }
+  const goHome = () => {
+    navigate("/");
+  };
   useEffect(() => {
     syncContent();
   }, [activeDoc]);
@@ -89,14 +88,22 @@ function Detail() {
     <div className="detail-cmp">
       <div className="left-bar">
         <div className="title">
-          <img className="back" src={backImg} onClick={goHome}/>
+          <img className="back" src={backImg} onClick={goHome} />
           <div className="title-inner">
             <img src={libImg} /> {type.name}
           </div>
-
         </div>
         <Divider />
         <div className="docs">
+          <DocNav
+            data={docs}
+            activeId={activeDoc}
+            onItemClick={onClickDoc}
+            // dropdownItems={dropdownItems}
+            onDropdownClick={onClick}
+          />
+        </div>
+        {/* <div className="docs">
           {docs.map((doc) => (
             <div
               key={doc.id}
@@ -111,17 +118,14 @@ function Detail() {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
-
 
       <div className="main">
         <div className="top-bar">
+          <div></div>
           <div>
-
-          </div>
-          <div>
-            <Button type="primary" onClick={toSave}>
+            <Button type="primary" onClick={toSave} size="small">
               保存
             </Button>
           </div>
@@ -144,7 +148,5 @@ function Detail() {
     </div>
   );
 }
-
-
 
 export default Detail;

@@ -1,6 +1,7 @@
 import Router from "@koa/router";
 import { PrismaClient } from "@prisma/client";
 import _ from "lodash";
+import toTree from "../utils/to-tree";
 
 const prisma = new PrismaClient();
 
@@ -16,7 +17,7 @@ const queryList = async (ctx) => {
         where: ctx.query,
         omit: { des: true }
     });
-    return results;
+    return toTree(results);
 }
 
 const router = new Router({ prefix: "/doc" });

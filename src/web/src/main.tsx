@@ -7,7 +7,6 @@ import router from "@/router";
 import "./index.less";
 import '@/api';
 
-
 createRoot(document.getElementById("root")!).render(
   <ConfigProvider locale={zhCN}>  
     <RouterProvider router={router} />

@@ -1,0 +1,61 @@
+.doc-nav {
+    padding: 8px 0;
+    user-select: none;
+  
+    &-node {
+      margin-bottom: 2px;
+    }
+  
+    &-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+  
+      &:hover {
+        background-color: #f5f5f5;
+        
+        .doc-actions {
+          visibility: visible;
+        }
+      }
+  
+      &.active {
+        background-color: #e6f7ff;
+        color: #1890ff;
+        font-weight: 500;
+      }
+    }
+  }
+  
+  .doc-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .doc-actions {
+    visibility: hidden;
+    margin-left: 8px;
+    
+    .doc-more-action {
+      width: 16px;
+      height: 16px;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+      
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+  
+  .doc-children {
+    padding-left: 24px;
+    margin-top: 2px;
+    border-left: 1px dashed #e0e0e0;
+  }
