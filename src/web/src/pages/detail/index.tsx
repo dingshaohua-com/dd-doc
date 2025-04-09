@@ -1,78 +1,62 @@
 import "./style.scss";
 import { useEffect, useState } from "react";
-import { Button, Divider } from "antd";
+
 import Editor from "@/components/editor";
 import noDocImg from "@/assets/no-doc.svg";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { useSearchParams } from "react-router";
-import libImg from "@/assets/lib.svg";
-import backImg from "@/assets/back.svg";
+
+
 import type { MenuProps } from "antd";
-import { useNavigate } from "react-router";
-import DocNav from "@/components/doc-nav";
+import LeftBar from "./left-bar";
+
+
 
 function Detail() {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const book_id = searchParams.get("id");
 
-  // const [showEditor, setShowEditor] = useState(false);
-  const [content, setContent] = useState("");
 
-  const [type, setType] = useState({ name: "" });
-  const syncType = async () => {
-    const res = await api.type.get({ id: book_id });
-    setType(res);
-  };
+  // // const [showEditor, setShowEditor] = useState(false);
+  // const [content, setContent] = useState("");
 
-  const [docs, setDocs] = useState([]);
-  const syncDocs = async () => {
-    const res = await api.doc.get({ book_id });
-    setDocs(res);
-    setActiveDoc(res.at(0).id);
-  };
 
-  const [activeDoc, setActiveDoc] = useState();
 
-  const toSave = async () => {
-    console.log(111, content);
-    const res = await api.doc.put({ id: activeDoc, des: content });
-  };
 
-  const createDoc = async () => {
-    const params: any = { name: "无标题文档", book_id };
-    params.pid = activeDoc;
-    const res = await api.doc.add(params);
-    syncDocs();
-  };
-  const onClick: MenuProps["onClick"] = ({ key }) => {
-    if (key === "add") {
-      createDoc();
-    }
-  };
 
-  const onClickDoc = (id) => {
-    setActiveDoc(id);
-  };
 
-  useEffect(() => {
-    syncType();
-    syncDocs();
-  }, []);
 
-  const syncContent = async () => {
-    if (activeDoc) {
-      const res = await api.doc.get({ id: activeDoc });
-      setContent(res.des || "");
-    }
-  };
+  // const toSave = async () => {
+  //   console.log(111, content);
+  //   const res = await api.doc.put({ id: activeDoc, des: content });
+  // };
 
-  const goHome = () => {
-    navigate("/");
-  };
-  useEffect(() => {
-    syncContent();
-  }, [activeDoc]);
+  // const createDoc = async () => {
+  //   const params: any = { name: "无标题文档", book_id };
+  //   params.pid = activeDoc;
+  //   const res = await api.doc.add(params);
+  //   syncDocs();
+  // };
+  // const onClick: MenuProps["onClick"] = ({ key }) => {
+  //   if (key === "add") {
+  //     createDoc();
+  //   }
+  // };
+
+  // const onClickDoc = (id) => {
+  //   setActiveDoc(id);
+  // };
+
+
+
+  // const syncContent = async () => {
+  //   if (activeDoc) {
+  //     const res = await api.doc.get({ id: activeDoc });
+  //     setContent(res.des || "");
+  //   }
+  // };
+
+ 
+  // useEffect(() => {
+  //   syncContent();
+  // }, [activeDoc]);
 
   const items: MenuProps["items"] = [
     {
@@ -86,51 +70,18 @@ function Detail() {
   ];
   return (
     <div className="detail-cmp">
-      <div className="left-bar">
-        <div className="title">
-          <img className="back" src={backImg} onClick={goHome} />
-          <div className="title-inner">
-            <img src={libImg} /> {type.name}
-          </div>
-        </div>
-        <Divider />
-        <div className="docs">
-          <DocNav
-            data={docs}
-            activeId={activeDoc}
-            onItemClick={onClickDoc}
-            // dropdownItems={dropdownItems}
-            onDropdownClick={onClick}
-          />
-        </div>
-        {/* <div className="docs">
-          {docs.map((doc) => (
-            <div
-              key={doc.id}
-              className={cs("doc", { "doc-active": doc.id === activeDoc })}
-              onClick={() => onClickDoc(doc.id)}
-            >
-              {doc.name}
-              <div className="tools">
-                <Dropdown menu={{ items, onClick }} trigger={["click"]}>
-                  <img src={moreImg} onClick={(e) => e.preventDefault()} />
-                </Dropdown>
-              </div>
-            </div>
-          ))}
-        </div> */}
-      </div>
-
+      
+      <LeftBar/>
       <div className="main">
-        <div className="top-bar">
+        {/* <div className="top-bar">
           <div></div>
           <div>
             <Button type="primary" onClick={toSave} size="small">
               保存
             </Button>
           </div>
-        </div>
-        {docs.length > 0 ? (
+        </div> */}
+        {/* {docs.length > 0 ? (
           <div className="have-data">
             <Editor content={content} setContent={setContent} />
           </div>
@@ -143,7 +94,7 @@ function Detail() {
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

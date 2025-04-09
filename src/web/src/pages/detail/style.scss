@@ -7,7 +7,8 @@
 
   .left-bar {
     width: 260px;
-    background-color: rgba($color: blue, $alpha: 0.1);
+    // background: #fafafa;
+    border-right: 1px solid #f1f1f1;
 
     .title {
       display: flex;

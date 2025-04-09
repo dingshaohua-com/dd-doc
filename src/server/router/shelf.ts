@@ -4,7 +4,7 @@ import _ from "lodash";
 
 const prisma = new PrismaClient();
 
-const router = new Router({ prefix: "/type" });
+const router = new Router({ prefix: "/shelf" });
 router.get("/", async (ctx) => {
   let prismaParams: any = {};
   const queryParams = _.cloneDeep(ctx.query || {});
@@ -19,15 +19,15 @@ router.get("/", async (ctx) => {
   if (haveParams) {
     queryParams.id && (queryParams.id = Number(queryParams.id)); 
     prismaParams.where = queryParams;
-    results = await prisma.type.findFirst(prismaParams);
+    results = await prisma.shelf.findFirst(prismaParams);
   } else {
-    results = await prisma.type.findMany(prismaParams);
+    results = await prisma.shelf.findMany(prismaParams);
   }
   ctx.body = results;
 });
 
 router.post("/", async (ctx) => {
-  const results = await prisma.type.create({ data: ctx.request.body });
+  const results = await prisma.shelf.create({ data: ctx.request.body });
   ctx.body = results;
 });
 export default router;

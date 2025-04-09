@@ -15,19 +15,10 @@ model book {
   cover       String?   @db.VarChar(255)
   create_time DateTime? @default(now()) @db.Timestamp(0)
   type_id     Int?
-  type        type?     @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "book_ibfk_1")
+  type        shelf?    @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "book_ibfk_1")
   doc         doc[]
 
   @@index([type_id], map: "type_id")
-}
-
-model type {
-  id          Int      @id @default(autoincrement())
-  name        String   @db.VarChar(255)
-  sort        Int?
-  des         String?  @db.VarChar(255)
-  create_time DateTime @default(now()) @db.Timestamp(0)
-  book        book[]
 }
 
 model doc {
@@ -41,4 +32,13 @@ model doc {
   book        book      @relation(fields: [book_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "doc_ibfk_1")
 
   @@index([book_id], map: "book_id")
+}
+
+model shelf {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  sort        Int?
+  des         String?  @db.VarChar(255)
+  create_time DateTime @default(now()) @db.Timestamp(0)
+  book        book[]
 }
