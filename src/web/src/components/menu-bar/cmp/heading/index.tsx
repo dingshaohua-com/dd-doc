@@ -42,14 +42,7 @@ const Heading = ({ editor }) => {
     // }
   };
   const activeLeave = getActiveLeave();
-  return (
-    <Select
-      value={activeLeave || 0}
-      style={{ width: 88 }}
-      options={options}
-      onChange={onChange}
-    />
-  );
+  return <Select value={activeLeave || 0} style={{ width: 88 }} options={options} onChange={onChange} />;
 };
 
 export default Heading;

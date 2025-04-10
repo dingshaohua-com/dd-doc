@@ -1,9 +1,4 @@
-import {
-  RiBold,
-  RiItalic,
-  RiUnderline,
-  RiStrikethrough,
-} from '@remixicon/react';
+import { RiBold, RiItalic, RiUnderline, RiStrikethrough } from '@remixicon/react';
 import './style.scss';
 import { Button, Tooltip } from 'antd';
 
@@ -14,9 +9,7 @@ const buttonGroup: Array<any> = [
     icon: RiBold,
     action: (editor) => editor.chain().focus().toggleBold().run(),
     isActive: (editor) => editor.isActive('bold'),
-    canExecute: (editor) =>
-      editor.can().chain().focus().toggleBold().run() &&
-      !editor.isActive('codeBlock'),
+    canExecute: (editor) => editor.can().chain().focus().toggleBold().run() && !editor.isActive('codeBlock'),
     tooltip: '粗体',
   },
   {
@@ -25,9 +18,7 @@ const buttonGroup: Array<any> = [
     icon: RiItalic,
     action: (editor) => editor.chain().focus().toggleItalic().run(),
     isActive: (editor) => editor.isActive('italic'),
-    canExecute: (editor) =>
-      editor.can().chain().focus().toggleItalic().run() &&
-      !editor.isActive('codeBlock'),
+    canExecute: (editor) => editor.can().chain().focus().toggleItalic().run() && !editor.isActive('codeBlock'),
     tooltip: '斜体',
   },
   {
@@ -36,9 +27,7 @@ const buttonGroup: Array<any> = [
     icon: RiUnderline,
     action: (editor) => editor.chain().focus().toggleUnderline().run(),
     isActive: (editor) => editor.isActive('underline'),
-    canExecute: (editor) =>
-      editor.can().chain().focus().toggleUnderline().run() &&
-      !editor.isActive('codeBlock'),
+    canExecute: (editor) => editor.can().chain().focus().toggleUnderline().run() && !editor.isActive('codeBlock'),
     tooltip: '下划线',
   },
   {
@@ -47,9 +36,7 @@ const buttonGroup: Array<any> = [
     icon: RiStrikethrough,
     action: (editor) => editor.chain().focus().toggleStrike().run(),
     isActive: (editor) => editor.isActive('strike'),
-    canExecute: (editor) =>
-      editor.can().chain().focus().toggleUnderline().run() &&
-      !editor.isActive('codeBlock'),
+    canExecute: (editor) => editor.can().chain().focus().toggleUnderline().run() && !editor.isActive('codeBlock'),
     tooltip: '删除线',
   },
   //   {
@@ -77,12 +64,7 @@ const FontStyle = ({ editor }) => {
     <div className="fontStyle">
       {buttonGroup.map(({ icon: Icon, tooltip, isActive, action, value }) => (
         <Tooltip title={tooltip} key={value}>
-          <Button
-            onClick={() => action(editor)}
-            color="default"
-            variant={isActive(editor) ? 'solid' : 'filled'}
-            autoInsertSpace
-          >
+          <Button onClick={() => action(editor)} color="default" variant={isActive(editor) ? 'solid' : 'filled'} autoInsertSpace>
             <Icon />
           </Button>
         </Tooltip>

@@ -1,9 +1,10 @@
-html,body{
+html,
+body {
   padding: 0;
   margin: 0;
   height: 100%;
 }
-#root{
+#root {
   height: 100%;
 }
 
@@ -13,17 +14,17 @@ html,body{
   info: #4cb3d4;
   warning: #e6a700;
   danger: #fa383e;
-}
+};
 
-.content-common{
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1);
-  border-radius:4px;
+.content-common {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
   padding: 2px 16px;
   border-style: solid;
   border-width: 0;
-  border-left-width:5px;
+  border-left-width: 5px;
   margin-bottom: 10px;
-  color: rgba(0, 0, 0, .8)
+  color: rgba(0, 0, 0, 0.8);
 }
 
 each(@contents, {
@@ -34,13 +35,14 @@ each(@contents, {
   }
 });
 
-
 code {
   border-radius: 4px;
   padding: 3px 6px;
-  background-color: rgba(142, 150, 170, .14);
-  transition: color .25s, background-color .5s;
+  background-color: rgba(142, 150, 170, 0.14);
+  transition:
+    color 0.25s,
+    background-color 0.5s;
 }
-.ant-divider{
+.ant-divider {
   margin: 0;
 }

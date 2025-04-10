@@ -1,6 +1,6 @@
-import "./style.scss";
-import Heading from "./cmp/heading";
-import { Button, Divider } from "antd";
+import './style.scss';
+import Heading from './cmp/heading';
+import { Button, Divider } from 'antd';
 // import FontStyle from './cmp/font-style'
 
 const MenuBar = ({ editor }) => {

@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
-import "./style.scss";
-import { Button, Input, Space } from "antd";
-import AddType from "./add-shelf";
-import AddBook from "./add-book";
-import { PlusOutlined } from "@ant-design/icons";
-import libImg from "@/assets/lib.svg";
-import nobookImg from "@/assets/no-book.webp";
-import { useNavigate } from "react-router";
+import { useEffect, useRef, useState } from 'react';
+import './style.scss';
+import { Button, Input, Space } from 'antd';
+import AddType from './add-shelf';
+import AddBook from './add-book';
+import { PlusOutlined } from '@ant-design/icons';
+import libImg from '@/assets/lib.svg';
+import nobookImg from '@/assets/no-book.webp';
+import { useNavigate } from 'react-router';
 
 function Book() {
   // 导航路由对象
   const navigate = useNavigate();
 
   // 搜索内容
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState('');
   const onSearch = (event: any) => {
     setContent(event.target.value);
   };
@@ -28,13 +28,14 @@ function Book() {
   // 打开弹窗（新增书架 or 书籍）
   const [isAddShelfOpen, setIsAddShelfOpen] = useState(false);
   const [isAddBookOpen, setIsAddBookOpen] = useState(false);
+  const prevState = useRef({ isAddShelfOpen, isAddBookOpen }); // useRef 用于记录上一次的状态；
 
   // 进入详情
   const goDtl = (id: string) => {
     navigate({
-      pathname: "/detail",
+      pathname: '/detail',
       search:
-        "?" +
+        '?' +
         new URLSearchParams({
           id,
         }).toString(),
@@ -44,27 +45,21 @@ function Book() {
   useEffect(() => {
     syncShelfsIncludeBook();
   }, []);
+
   useEffect(() => {
-    if (!isAddShelfOpen) {
+    const prev = prevState.current;
+    const createShelfOver = isAddShelfOpen !== prev.isAddShelfOpen && !isAddShelfOpen;
+    const createBookOver = isAddBookOpen !== prev.isAddBookOpen && !isAddBookOpen;
+    if (createShelfOver || createBookOver) {
       syncShelfsIncludeBook();
     }
-  }, [isAddShelfOpen]);
-  useEffect(() => {
-    if (!isAddBookOpen) {
-      syncShelfsIncludeBook();
-    }
-  }, []);
+  }, [isAddShelfOpen, isAddBookOpen]);
 
   return (
     <div className="books-cmp">
       <div className="tools">
         <div className="right">
-          {" "}
-          <Input.Search
-            placeholder="搜索知识库"
-            onSearch={onSearch}
-            enterButton
-          />
+          <Input.Search placeholder="搜索知识库" onSearch={onSearch} enterButton />
         </div>
         <div className="left">
           <Space>

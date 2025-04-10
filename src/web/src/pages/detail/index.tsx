@@ -1,27 +1,16 @@
-import "./style.scss";
-import { useEffect, useState } from "react";
+import './style.scss';
+import { useEffect, useState } from 'react';
 
-import Editor from "@/components/editor";
-import noDocImg from "@/assets/no-doc.svg";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import Editor from '@/components/editor';
+import noDocImg from '@/assets/no-doc.svg';
+import { PlusCircleOutlined } from '@ant-design/icons';
 
-
-import type { MenuProps } from "antd";
-import LeftBar from "./left-bar";
-
-
+import type { MenuProps } from 'antd';
+import LeftBar from './left-bar';
 
 function Detail() {
-
-
   // // const [showEditor, setShowEditor] = useState(false);
   // const [content, setContent] = useState("");
-
-
-
-
-
-
 
   // const toSave = async () => {
   //   console.log(111, content);
@@ -44,8 +33,6 @@ function Detail() {
   //   setActiveDoc(id);
   // };
 
-
-
   // const syncContent = async () => {
   //   if (activeDoc) {
   //     const res = await api.doc.get({ id: activeDoc });
@@ -53,25 +40,23 @@ function Detail() {
   //   }
   // };
 
- 
   // useEffect(() => {
   //   syncContent();
   // }, [activeDoc]);
 
-  const items: MenuProps["items"] = [
+  const items: MenuProps['items'] = [
     {
-      key: "add",
+      key: 'add',
       label: <span>新增</span>,
     },
     {
-      key: "2",
+      key: '2',
       label: <span>删除</span>,
     },
   ];
   return (
     <div className="detail-cmp">
-      
-      <LeftBar/>
+      <LeftBar />
       <div className="main">
         {/* <div className="top-bar">
           <div></div>

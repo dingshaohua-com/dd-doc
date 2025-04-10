@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import "./style.scss";
-import MenuBar from "@/components/menu-bar";
-import { EditorProps, md } from './helper'
-
+import React, { useState } from 'react';
+import './style.scss';
+import MenuBar from '@/components/menu-bar';
+import { EditorProps, md } from './helper';
 
 const Editor: React.FC<EditorProps> = (props) => {
   // const [content, setContent] = useState("");
@@ -16,22 +15,15 @@ const Editor: React.FC<EditorProps> = (props) => {
   return (
     <div className="editor-wrapp">
       <div className="menubar-wrapp">
-      <MenuBar editor={{} as any} />
+        <MenuBar editor={{} as any} />
       </div>
-     
+
       <div className="editor">
-        <textarea
-          className="md-editor"
-          value={props.content}
-          onInput={onContentIpt}
-        ></textarea>
-        <div
-          className="md-view"
-          dangerouslySetInnerHTML={{ __html: md.render(props.content) }}
-        ></div>
+        <textarea className="md-editor" value={props.content} onInput={onContentIpt}></textarea>
+        <div className="md-view" dangerouslySetInnerHTML={{ __html: md.render(props.content) }}></div>
       </div>
     </div>
   );
-}
+};
 
 export default Editor;

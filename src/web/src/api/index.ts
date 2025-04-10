@@ -1,5 +1,5 @@
 // init.ts
-import axios from "axios";
+import axios from 'axios';
 
 const getFileNameFromUrl = (url) => {
   const match = url.match(/([^/]+)\.([^/]+)?$/); // 使用正则表达式匹配文件名（不包括扩展名）
@@ -8,7 +8,7 @@ const getFileNameFromUrl = (url) => {
     // 转换为小写，并用正则表达式替换每个分隔符后的字符为大写（除非它是字符串的第一个字符）
     fileName = fileName
       .toLowerCase() // 先转换为小写
-      .replace(/[-_\s]+(.)?/g, (match, p1) => (p1 ? p1.toUpperCase() : ""))
+      .replace(/[-_\s]+(.)?/g, (match, p1) => (p1 ? p1.toUpperCase() : ''))
       .replace(/^./, (str) => str.toLowerCase()); // 转换为小驼峰
     return fileName;
   }
@@ -25,7 +25,7 @@ axios.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 axios.interceptors.response.use(
@@ -35,7 +35,7 @@ axios.interceptors.response.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // ---===将api注入全局，只需将api定义放在modules中即可===---
