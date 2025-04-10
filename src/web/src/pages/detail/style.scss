@@ -8,6 +8,7 @@
     width: 260px;
     // background: #fafafa;
     border-right: 1px solid #f1f1f1;
+    
 
     .title {
       display: flex;
@@ -16,6 +17,11 @@
       font-weight: 700;
       font-size: 16px;
       gap: 6px;
+
+      .back{
+        width: 20px;
+        margin-left: 10px;
+      }
 
       .title-inner {
         align-content: center;

@@ -19,7 +19,8 @@ const Editor: React.FC<EditorProps> = (props) => {
       </div>
 
       <div className="editor">
-        <textarea className="md-editor" value={props.content} onInput={onContentIpt}></textarea>
+        {!props.readOnly && <textarea className="md-editor" value={props.content} onInput={onContentIpt}></textarea>}
+
         <div className="md-view" dangerouslySetInnerHTML={{ __html: md.render(props.content) }}></div>
       </div>
     </div>

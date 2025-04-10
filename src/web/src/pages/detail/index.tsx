@@ -7,8 +7,20 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 
 import type { MenuProps } from 'antd';
 import LeftBar from './left-bar';
+import { useNavigate, useSearchParams } from 'react-router';
 
 function Detail() {
+  const [searchParams] = useSearchParams();
+  const docId = searchParams.get('doc_id');
+
+  const [docs, setDocs] = useState([]);
+
+  const [docDtl, setDocDtl] = useState('');
+  const syncDoc = async () => {
+    const res = await api.doc.get({ id: docId });
+    setDocDtl(res.des || '');
+  };
+
   // // const [showEditor, setShowEditor] = useState(false);
   // const [content, setContent] = useState("");
 
@@ -17,12 +29,12 @@ function Detail() {
   //   const res = await api.doc.put({ id: activeDoc, des: content });
   // };
 
-  // const createDoc = async () => {
-  //   const params: any = { name: "无标题文档", book_id };
-  //   params.pid = activeDoc;
-  //   const res = await api.doc.add(params);
-  //   syncDocs();
-  // };
+  const createDoc = async () => {
+    // const params: any = { name: "无标题文档", book_id };
+    // params.pid = activeDoc;
+    // const res = await api.doc.add(params);
+    // syncDocs();
+  };
   // const onClick: MenuProps["onClick"] = ({ key }) => {
   //   if (key === "add") {
   //     createDoc();
@@ -44,19 +56,15 @@ function Detail() {
   //   syncContent();
   // }, [activeDoc]);
 
-  const items: MenuProps['items'] = [
-    {
-      key: 'add',
-      label: <span>新增</span>,
-    },
-    {
-      key: '2',
-      label: <span>删除</span>,
-    },
-  ];
+  useEffect(() => {
+    if (docId) {
+      syncDoc();
+    }
+  }, [docId]);
+
   return (
     <div className="detail-cmp">
-      <LeftBar />
+      <LeftBar setDocs={setDocs}/>
       <div className="main">
         {/* <div className="top-bar">
           <div></div>
@@ -66,9 +74,9 @@ function Detail() {
             </Button>
           </div>
         </div> */}
-        {/* {docs.length > 0 ? (
+        {docs.length > 0 ? (
           <div className="have-data">
-            <Editor content={content} setContent={setContent} />
+            <Editor content={docDtl} setContent={setDocDtl} readOnly={true}/>
           </div>
         ) : (
           <div className="no-data">
@@ -79,7 +87,7 @@ function Detail() {
               </div>
             </div>
           </div>
-        )} */}
+        )}
       </div>
     </div>
   );

@@ -1,59 +1,56 @@
-// import Router from "@koa/router";
-// import { PrismaClient } from "@prisma/client";
-
-// const prisma = new PrismaClient();
-
-
-
-// const router = new Router({ prefix: "/doc" });
-// router.get("/", (ctx) => {
-//   ctx.body = "i am doc";
-// });
-
-// router.post("/book", async (ctx) => {
-//   const results = await prisma.book.create({});
-//   ctx.body = results;
-// });
-
-// router.get("/books", async (ctx) => {
-//   const results = await prisma.book.findMany();
-//   ctx.body = results;
-// });
-
-
-// export default router;
-
-
-import Router from "@koa/router";
-import { PrismaClient } from "@prisma/client";
+import _ from 'lodash';
+import Router from '@koa/router';
+import { PrismaClient } from '@prisma/client';
+import toTree from '../utils/to-tree';
 
 const prisma = new PrismaClient();
 
 const queryOne = async (ctx) => {
-    const results = await prisma.book.findFirst({
-        where: ctx.query,
-    });
-    return results;
-}
+  const queryParams = _.cloneDeep(ctx.query);
+  const prismaParams = { where: queryParams };
+  if (queryParams.includeDoc) {
+    prismaParams['include'] = {
+      // doc: true // 返回所有字段
+      doc: {
+        select: {
+          // 你只列出你想要的字段，不写 dtl 就不会返回它
+          id: true,
+          name: true,
+          book_id: true,
+          sort: true,
+          create_time: true,
+          pid: true,
+        },
+      },
+    };
+    delete prismaParams.where.includeDoc;
+  }
+  const results: any = await prisma.book.findFirst(prismaParams);
+  results.docs = toTree(results.doc);
+  delete results.doc;
+  return results;
+};
 
 const queryList = async (ctx) => {
-    const results = await prisma.book.findMany({
-        where: ctx.query,
-        omit: { des: true }
-    });
-    return results;
-}
+  const queryParams = _.cloneDeep(ctx.query);
+  delete queryParams.includeDoc;
+  const results = await prisma.book.findMany({
+    where: queryParams,
+    omit: { des: true },
+  });
+  return results;
+};
 
-const router = new Router({ prefix: "/book" });
-router.get("/", async (ctx) => {
-    ctx.query.book_id&&(ctx.query.book_id = Number(ctx.query.book_id) as any);
-    const isQueryOne = ctx.query.id;
-    if (isQueryOne) {
-        ctx.query.id = Number(ctx.query.id) as any;
-        ctx.body = await queryOne(ctx);
-    } else {
-        ctx.body = await queryList(ctx);
-    }
+const router = new Router({ prefix: '/book' });
+router.get('/', async (ctx) => {
+  ctx.query.book_id && (ctx.query.book_id = Number(ctx.query.book_id) as any);
+  const isQueryOne = ctx.query.id;
+  if (isQueryOne) {
+    ctx.query.id = Number(ctx.query.id) as any;
+    ctx.body = await queryOne(ctx);
+  } else {
+    ctx.body = await queryList(ctx);
+  }
 });
 
 // router.get("/withType", async (ctx) => {
@@ -66,9 +63,8 @@ router.get("/", async (ctx) => {
 //   ctx.body = results;
 // });
 
-
 router.post('/', async (ctx) => {
-    const results = await prisma.book.create({ data: ctx.request.body });
-    ctx.body = results;
-})
+  const results = await prisma.book.create({ data: ctx.request.body });
+  ctx.body = results;
+});
 export default router;

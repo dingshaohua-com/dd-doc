@@ -7,8 +7,8 @@ interface DocNode {
 
 interface DocNavProps {
   data: DocNode[];
-  activeId: number | null;
-  onItemClick: (id: number) => void;
-  dropdownItems: MenuProps['items']; // 使用antd的MenuProps类型
-  onDropdownClick: MenuProps['onClick']; // 使用antd的MenuProps类型
+  dropdownItems: Array<any>
+  onDropdownClick:(key: any, item?:any) => void;
+  activeId: string | null;
+  setActiveId:(id: string) => void;
 }

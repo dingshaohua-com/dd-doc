@@ -31,13 +31,13 @@ function Book() {
   const prevState = useRef({ isAddShelfOpen, isAddBookOpen }); // useRef 用于记录上一次的状态；
 
   // 进入详情
-  const goDtl = (id: string) => {
+  const goDtl = (book_id: string) => {
     navigate({
       pathname: '/detail',
       search:
         '?' +
         new URLSearchParams({
-          id,
+          book_id,
         }).toString(),
     });
   };
@@ -84,7 +84,7 @@ function Book() {
             <div className="books">
               {item.book.length > 0 ? (
                 item.book.map((book) => (
-                  <div className="book" onClick={() => goDtl(book.id)}>
+                  <div className="book" key={book.id} onClick={() => goDtl(book.id)}>
                     <div className="book-some">
                       <div className="name">{book.name}</div>
                       <div className="des">{book.des}</div>

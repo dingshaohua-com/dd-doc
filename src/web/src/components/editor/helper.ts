@@ -18,6 +18,7 @@ md.use(mdcont, 'tip');
 md.use(mdcont, 'danger');
 
 export interface EditorProps {
+  readOnly:boolean;
   content: string;
   setContent: React.Dispatch<React.SetStateAction<string>>;
 }
