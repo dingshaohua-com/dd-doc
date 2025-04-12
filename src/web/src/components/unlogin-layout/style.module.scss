@@ -1,0 +1,43 @@
+.layout{
+    max-width: 1440px;
+    margin: auto;
+    .header {
+      display: flex;
+      align-items: center;
+      background-color: white;
+      position: fixed;
+      width: 1440px;
+      height: 80px;
+    
+      justify-content: space-between;
+    
+      .logo {
+        width: 70px;
+      }
+    
+    }
+    .content{
+      background-color: white;
+    }
+    
+    .btn{
+      background-color: $yn-theme;
+      color: white;
+      &:hover{
+        background-color: $ynant-primary-color-hover!important;
+      }
+    
+    
+    }
+  }
+  
+  
+  
+  :global{
+    .ant-menu-item-selected{
+      color: $yn-theme!important;
+      &::after{
+        border-color: $yn-theme!important;
+      }
+    }
+  }

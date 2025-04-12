@@ -42,3 +42,11 @@ model shelf {
   create_time DateTime @default(now()) @db.Timestamp(0)
   book        book[]
 }
+
+model user {
+  id       Int     @id @default(autoincrement())
+  email    String? @db.VarChar(255)
+  password String? @db.VarChar(255)
+  qq       Int?
+  role     String? @db.VarChar(255)
+}

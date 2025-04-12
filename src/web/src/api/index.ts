@@ -1,5 +1,7 @@
 // init.ts
 import axios from 'axios';
+import { message } from "antd"
+import store from "@/store";
 
 const getFileNameFromUrl = (url) => {
   const match = url.match(/([^/]+)\.([^/]+)?$/); // 使用正则表达式匹配文件名（不包括扩展名）
@@ -21,6 +23,10 @@ axios.defaults.baseURL = '/api';
 axios.defaults.timeout = 10000;
 axios.interceptors.request.use(
   (config) => {
+    const { token } = store.getState();
+    if(token){
+      config.headers.Authorization = "Bearer "+token;
+    }
     return config;
   },
   (error) => {
@@ -31,9 +37,22 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response) => {
     const res = response.data;
-    return res;
+
+    if (res.code === 1) {
+      message.error(res.msg)
+      return Promise.reject(res.msg);
+    } else {
+      return res.data;
+    }
   },
   (error) => {
+    if(error.status===401){
+      message.error('登录失效，即将跳转至登录')
+      setTimeout(()=>{
+        location.href = "/login"
+      },2000)
+    }
+   
     return Promise.reject(error);
   },
 );

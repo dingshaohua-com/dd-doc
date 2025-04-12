@@ -1,38 +1,32 @@
-import { useState } from 'react';
-import './style.scss';
-import MenuBar from '@/components/menu-bar';
-import MarkdownIt from 'markdown-it';
-import mdcont from 'markdown-it-container';
-import hljs from 'highlight.js';
-import 'highlight.js/styles/atom-one-dark.min.css';
+import "./style.scss";
+import banner1Img from "@/assets/banner1.png";
+import banner2Img from "@/assets/banner2.png";
+import withImg from '@/assets/with.png'
+import UnloginLayout from '@/components/unlogin-layout'
 
-const md = MarkdownIt({
-  highlight: function (str, lang) {
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return '<pre><code class="hljs">' + hljs.highlight(str, { language: lang, ignoreIllegals: true }).value + '</code></pre>';
-      } catch (__) {}
-    }
-
-    return '<pre><code class="hljs">' + md.utils.escapeHtml(str) + '</code></pre>';
-  },
-});
-md.use(mdcont, 'tip');
-md.use(mdcont, 'danger');
-function App() {
-  const [content, setContent] = useState('');
-  const onContentIpt = (event: any) => {
-    setContent(event.target.value);
-  };
+const Home: React.FC = () => {
   return (
-    <div className="editor-wrapp">
-      <MenuBar editor={{} as any} />
-      <div className="editor">
-        <textarea className="md-editor" value={content} onInput={onContentIpt}></textarea>
-        <div className="md-view" dangerouslySetInnerHTML={{ __html: md.render(content) }}></div>
-      </div>
-    </div>
-  );
-}
+    <UnloginLayout>
+      <div className="home">
+        <h1 className="tip">
+          <mark className="hightlight">语鸟</mark>
+          ，为每一个人提供优秀的文档和知识库工具
+        </h1>
+        <div>
+          <img src={banner1Img} width="100%" />
+        </div>
 
-export default App;
+        <div className="title">
+          <h2>特色能力</h2>
+          <div>用专业好用的编辑器与知识库，像书一样构建你的个人笔记和知识管理体系，释放每一个人的创造性</div>
+        </div>
+
+        <img src={withImg} className="with" />
+        <img src={banner2Img} width="100%" />
+      </div>
+    </UnloginLayout>
+
+  );
+};
+
+export default Home;

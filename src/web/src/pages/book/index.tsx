@@ -7,8 +7,14 @@ import { PlusOutlined } from '@ant-design/icons';
 import libImg from '@/assets/lib.svg';
 import nobookImg from '@/assets/no-book.webp';
 import { useNavigate } from 'react-router';
+// import { useSelector } from 'react-redux'
+
 
 function Book() {
+  // const loginUser = useSelector((state) => state.loginUser);
+  // const isLogin = loginUser !== null;
+  const isLogin = true;
+
   // 导航路由对象
   const navigate = useNavigate();
 
@@ -61,16 +67,24 @@ function Book() {
         <div className="right">
           <Input.Search placeholder="搜索知识库" onSearch={onSearch} enterButton />
         </div>
+
         <div className="left">
           <Space>
-            <Button type="primary" onClick={() => setIsAddShelfOpen(true)}>
-              <PlusOutlined />
-              书架
-            </Button>
-            <Button type="primary" onClick={() => setIsAddBookOpen(true)}>
-              <PlusOutlined />
-              知识库
-            </Button>
+            {
+              isLogin ? <>
+                <Button type="primary" onClick={() => setIsAddShelfOpen(true)}>
+                  <PlusOutlined />
+                  书架
+                </Button>
+                <Button type="primary" onClick={() => setIsAddBookOpen(true)}>
+                  <PlusOutlined />
+                  知识库
+                </Button></> : <Button type="primary">
+                <PlusOutlined />
+                登录
+              </Button>
+            }
+
           </Space>
         </div>
       </div>

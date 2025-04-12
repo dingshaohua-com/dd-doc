@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { resolve } from "path"
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -19,5 +20,17 @@ export default defineConfig({
     },
   },
   plugins: [react()],
-  assetsInclude: ['**/*.svg'],
+  css: {
+    preprocessorOptions: {
+      scss: {
+         additionalData: `@use "${resolve('src/assets/var.scss')}" as *;`
+      }
+      // sass: {
+      //   modifyVars: {
+      //     hack: `true; @import (reference) "${resolve('src/assets/var.scss')}";`,
+      //   },
+      //   javascriptEnabled: true,
+      // }
+    }
+  },
 })

@@ -2,6 +2,7 @@ import _ from 'lodash';
 import Router from '@koa/router';
 import { PrismaClient } from '@prisma/client';
 import toTree from '../utils/to-tree';
+import JsonResult from '../utils/json-result';
 
 const prisma = new PrismaClient();
 
@@ -47,9 +48,9 @@ router.get('/', async (ctx) => {
   const isQueryOne = ctx.query.id;
   if (isQueryOne) {
     ctx.query.id = Number(ctx.query.id) as any;
-    ctx.body = await queryOne(ctx);
+    ctx.body = JsonResult.success(await queryOne(ctx));
   } else {
-    ctx.body = await queryList(ctx);
+    ctx.body = JsonResult.success(await queryList(ctx));
   }
 });
 
@@ -65,6 +66,6 @@ router.get('/', async (ctx) => {
 
 router.post('/', async (ctx) => {
   const results = await prisma.book.create({ data: ctx.request.body });
-  ctx.body = results;
+  ctx.body = JsonResult.success(results);
 });
 export default router;

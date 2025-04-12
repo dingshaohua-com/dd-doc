@@ -1,6 +1,7 @@
 import Router from '@koa/router';
 import { PrismaClient } from '@prisma/client';
 import _ from 'lodash';
+import JsonResult from '../utils/json-result';
 
 const prisma = new PrismaClient();
 
@@ -23,11 +24,11 @@ router.get('/', async (ctx) => {
   } else {
     results = await prisma.shelf.findMany(prismaParams);
   }
-  ctx.body = results;
+  ctx.body = JsonResult.success(results);
 });
 
 router.post('/', async (ctx) => {
   const results = await prisma.shelf.create({ data: ctx.request.body });
-  ctx.body = results;
+  ctx.body = JsonResult.success(results);
 });
 export default router;
