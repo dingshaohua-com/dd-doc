@@ -12,6 +12,7 @@ import { useNavigate, useSearchParams } from 'react-router';
 function Book() {
   const [searchParams] = useSearchParams();
   const docId = searchParams.get('doc_id');
+  const bookId = searchParams.get('book_id');
 
   const [docs, setDocs] = useState([]);
 
@@ -30,9 +31,9 @@ function Book() {
   // };
 
   const createDoc = async () => {
-    // const params: any = { name: "无标题文档", book_id };
+    const params: any = { name: "无标题文档", book_id:bookId };
     // params.pid = activeDoc;
-    // const res = await api.doc.add(params);
+    const res = await api.doc.add(params);
     // syncDocs();
   };
   // const onClick: MenuProps["onClick"] = ({ key }) => {

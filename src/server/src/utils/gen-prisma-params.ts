@@ -7,7 +7,7 @@ const getInclude = (str) => {
     return match ? match[1].charAt(0).toLowerCase() + match[1].slice(1) : null;
 };
 
-const genPrismaParams = (params) => {
+export const genPrismaFindParams = (params) => {
     const prismaParams = {
         include: {},
         where: {}
@@ -24,5 +24,3 @@ const genPrismaParams = (params) => {
     })
     return prismaParams;
 }
-
-export default genPrismaParams;

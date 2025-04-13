@@ -4,7 +4,7 @@ import { Modal, Form, Input, InputNumber, Select } from 'antd';
 const AddBook: React.FC<AddBookProps> = (props) => {
   const [types, setTypes] = useState([]);
   const syncTypes = async () => {
-    const res = await api.type.get();
+    const res = await api.shelf.get();
     setTypes(res);
     console.log(1111, res);
   };
@@ -48,7 +48,7 @@ const AddBook: React.FC<AddBookProps> = (props) => {
       <Form.Item<AddBookFieldType> label="封面" name="cover">
         <Input />
       </Form.Item>
-      <Form.Item<AddBookFieldType> label="分类" name="type_id">
+      <Form.Item<AddBookFieldType> label="分类" name="shelf_id">
         <Select>
           {types.map((item) => (
             <Select.Option key={item.id} value={item.id}>

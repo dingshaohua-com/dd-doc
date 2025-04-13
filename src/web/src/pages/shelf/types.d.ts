@@ -13,5 +13,5 @@ type AddTypeFieldType = {
 
 type AddBookFieldType = {
   cover?: string;
-  type_id?: string;
+  shelf_id?: string;
 } & AddTypeFieldType;

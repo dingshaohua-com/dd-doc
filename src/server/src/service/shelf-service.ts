@@ -1,23 +1,28 @@
 import { PrismaClient } from '@prisma/client';
-import genPrismaParams from "../utils/gen-prisma-params.ts";
+import {genPrismaFindParams} from "../utils/gen-prisma-params.ts";
 
 const prisma = new PrismaClient();
 
 
 export const queryOne = (params) => {
-    const prismaParams = genPrismaParams(params);
+    const prismaParams = genPrismaFindParams(params);
     return prisma.shelf.findFirst(prismaParams);
 }
 
 export const queryList = async (params) => {
-    const prismaParams = genPrismaParams(params);
-    console.log(1111, prismaParams);
-    
+    const prismaParams = genPrismaFindParams(params);
+  
     return prisma.shelf.findMany(prismaParams);
 };
 
+export const create = (params) => {
+    return prisma.shelf.create({ data: params });
+}
+
+
 export default {
     queryOne,
-    queryList
+    queryList,
+    create
 }
 

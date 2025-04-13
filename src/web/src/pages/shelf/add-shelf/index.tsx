@@ -5,7 +5,7 @@ const AddType: React.FC<AddTypeProps> = (props) => {
   const [form] = Form.useForm();
   const onFinish = async (values: AddTypeFieldType) => {
     console.log('Received values of form: ', values);
-    const res = await api.type.add(values);
+    const res = await api.shelf.add(values);
     props.setOpen(false);
   };
 

@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import _ from 'lodash';
 import toTree from '../utils/to-tree';
 import JsonResult from '../utils/json-result';
+import checkDocOwnership from '../middleware/check-doc-ownership.ts'
 
 const prisma = new PrismaClient();
 
@@ -22,7 +23,7 @@ const queryList = async (ctx) => {
 };
 
 const router = new Router({ prefix: '/doc' });
-router.get('/', async (ctx) => {
+router.get('/',checkDocOwnership, async (ctx) => {
   ctx.query.book_id && (ctx.query.book_id = Number(ctx.query.book_id) as any);
   const isQueryOne = ctx.query.id;
   if (isQueryOne) {

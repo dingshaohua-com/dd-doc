@@ -29,7 +29,7 @@ function Shelf() {
   const syncShelfsIncludeBook = async () => {
     const res = await api.shelf.get({ includeBook: true });
     console.log(11111, res);
-    
+
     setShelfsInclBook(res);
   };
 
@@ -78,10 +78,7 @@ function Shelf() {
                   <PlusOutlined />
                   书架
                 </Button>
-                <Button type="primary" onClick={() => setIsAddBookOpen(true)}>
-                  <PlusOutlined />
-                  知识库
-                </Button></> : <Button type="primary">
+              </> : <Button type="primary">
                 <PlusOutlined />
                 登录
               </Button>
@@ -94,8 +91,14 @@ function Shelf() {
         <div className="types-includebook" key={item.id}>
           <div className="type-includebook">
             <div className="type">
-              <img src={libImg} />
-              {item.name}
+              <div className='label'>
+                <img src={libImg} />
+                {item.name}
+              </div>
+              <div className='action' onClick={() => setIsAddBookOpen(true)}>
+                <PlusOutlined />
+                书本
+              </div>
             </div>
             <div className="books">
               {item.book.length > 0 ? (

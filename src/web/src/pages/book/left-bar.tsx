@@ -32,9 +32,11 @@ const LeftBar: FC<any> = (props) => {
     if (docId) {
       setActiveDoc(docId);
     } else {
-      console.log(22222);
-      const firstDoc = res.docs[0].id;
-      setActiveDocWithUrl(firstDoc);
+      if(res.docs.length>0){
+        const firstDoc = res.docs.at(0).id;
+        setActiveDocWithUrl(firstDoc);
+      }
+     
     }
   };
 
