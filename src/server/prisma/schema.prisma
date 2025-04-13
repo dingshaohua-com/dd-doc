@@ -15,7 +15,7 @@ model book {
   cover       String?   @db.VarChar(255)
   create_time DateTime? @default(now()) @db.Timestamp(0)
   type_id     Int?
-  type        shelf?    @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "book_ibfk_1")
+  shelf       shelf?    @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "book_ibfk_1")
   doc         doc[]
 
   @@index([type_id], map: "type_id")
@@ -40,7 +40,12 @@ model shelf {
   sort        Int?
   des         String?  @db.VarChar(255)
   create_time DateTime @default(now()) @db.Timestamp(0)
+  user_id     Int
   book        book[]
+  user        user     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "shelf_ibfk_1")
+
+  @@index([id], map: "id")
+  @@index([user_id], map: "user_id")
 }
 
 model user {
@@ -49,4 +54,5 @@ model user {
   password String? @db.VarChar(255)
   qq       Int?
   role     String? @db.VarChar(255)
+  shelf    shelf[]
 }

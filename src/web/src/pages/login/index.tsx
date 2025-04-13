@@ -20,7 +20,7 @@ const Login: React.FC = () => {
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
         const {token} = await api.root.login(values);
         dispatch(setToken(token));
-        navigate('/book')
+        navigate('/shelf')
     };
 
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {

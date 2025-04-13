@@ -14,22 +14,19 @@ const router = createBrowserRouter([
         // Component: Home,
         Component: lazy(() => import('@/pages/home')),
       },
-      {
-        path: "/about",
-        Component: lazy(() => import('@/pages/about')),
-      },
+      
       {
         path: "/login",
         Component: lazy(() => import('@/pages/login')),
       },
       {
-        path: "/book",
-        Component: lazy(() => import('@/pages/book')),
+        path: "/shelf",
+        Component: lazy(() => import('@/pages/shelf')),
       },
       {
         
-        path: 'detail',
-        Component: lazy(() => import('@/pages/detail')),
+        path: 'book',
+        Component: lazy(() => import('@/pages/book')),
       },
     ],
   },

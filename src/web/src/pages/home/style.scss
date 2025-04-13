@@ -1,28 +1,112 @@
-.home{
-  padding-top: 160px;
-  height: calc(100vh - 80px);
-  .tip{
-      font-size: 48px;
-      text-align: center;
-      .hightlight{
-          background-color: inherit;
-          color: $yn-theme;
-      }
-  }
-  .title{
-      text-align: center;
-      margin-top: 100px;
-     
-      h2{
-          font-size: 48px;
-      }
-      &>:not(h2){
-          color: $yn-text-caption;
-          font-size: 16;
-      }
-  }
-  .with{
-      float: right;
-      width: 30%;
-  }
+.home {
+    padding: 10px;
+
+    .thing {
+        padding: 60px 0;
+
+        .tip {
+            font-size: 50px;
+            text-align: center;
+
+            .hightlight {
+                background-color: inherit;
+                color: $yn-theme;
+            }
+        }
+
+        .title {
+            text-align: center;
+            margin-top: 100px;
+
+            h2 {
+                font-size: 40px;
+            }
+
+            &>:not(h2) {
+                color: $yn-text-caption;
+            }
+        }
+
+        .with {
+            float: right;
+            width: 30%;
+        }
+    }
+
+    .about {
+        .sub_title {
+            margin: 0;
+            font-size: 40px;
+            text-align: center;
+
+            .hightlight {
+                color: $yn-theme;
+                background-color: unset;
+            }
+        }
+
+        .title_wrapp {
+            text-align: center;
+        }
+
+        .title {
+            font-size: 40px;
+            background-image: url(../../assets/h1-bg.png);
+            background-repeat: no-repeat;
+            background-size: 60%;
+            background-position: right bottom;
+            display: inline-block;
+            padding-bottom: 20px;
+            margin-top: 10px;
+
+        }
+
+        .intro {
+            max-width: 960px;
+            margin: auto;
+            margin-top: 20px;
+            line-height: 1.75;
+            color: $yn-text-caption;
+
+            b {
+                color: $yn-text-primary
+            }
+        }
+
+        .we_img {
+            width: 100%;
+            position: relative;
+            top: -30px;
+        }
+
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    /* 手机端样式 */
+    .home {
+        .thing {
+            .tip {
+                font-size: 24px;
+            }
+
+            .title>h2 {
+                font-size: 20px;
+            }
+        }
+        .about {
+            .sub_title {
+                font-size: 20px;
+            }
+    
+            .title {
+                font-size: 20px;
+            }
+        }
+    }
+
+
+
 }

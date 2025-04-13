@@ -11,8 +11,8 @@ const LeftBar: FC<any> = (props) => {
   const docId = searchParams.get('doc_id');
 
   const navigate = useNavigate();
-  const goHome = () => {
-    navigate('/');
+  const goBack = () => {
+    navigate('/shelf');
   };
 
   // 当前选中的doc
@@ -64,7 +64,7 @@ const LeftBar: FC<any> = (props) => {
   return (
     <div className="left-bar">
       <div className="title">
-        <img className="back" src={backImg} onClick={goHome} />
+        <img className="back" src={backImg} onClick={goBack} />
         <div className="title-inner">
           <img src={libImg} />
           {book.name}

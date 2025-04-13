@@ -1,123 +1,94 @@
-import { useEffect, useRef, useState } from 'react';
 import './style.scss';
-import { Button, Input, Space } from 'antd';
-import AddType from './add-shelf';
-import AddBook from './add-book';
-import { PlusOutlined } from '@ant-design/icons';
-import libImg from '@/assets/lib.svg';
-import nobookImg from '@/assets/no-book.webp';
-import { useNavigate } from 'react-router';
-// import { useSelector } from 'react-redux'
+import { useEffect, useState } from 'react';
 
+import Editor from '@/components/editor';
+import noDocImg from '@/assets/no-doc.svg';
+import { PlusCircleOutlined } from '@ant-design/icons';
+
+import type { MenuProps } from 'antd';
+import LeftBar from './left-bar';
+import { useNavigate, useSearchParams } from 'react-router';
 
 function Book() {
-  // const loginUser = useSelector((state) => state.loginUser);
-  // const isLogin = loginUser !== null;
-  const isLogin = true;
+  const [searchParams] = useSearchParams();
+  const docId = searchParams.get('doc_id');
 
-  // 导航路由对象
-  const navigate = useNavigate();
+  const [docs, setDocs] = useState([]);
 
-  // 搜索内容
-  const [content, setContent] = useState('');
-  const onSearch = (event: any) => {
-    setContent(event.target.value);
+  const [docDtl, setDocDtl] = useState('');
+  const syncDoc = async () => {
+    const res = await api.doc.get({ id: docId });
+    setDocDtl(res.des || '');
   };
 
-  // 书架相关
-  const [shelfsInclBook, setShelfsInclBook] = useState([]);
-  const syncShelfsIncludeBook = async () => {
-    const res = await api.shelf.get({ includeBook: true });
-    setShelfsInclBook(res);
-  };
+  // // const [showEditor, setShowEditor] = useState(false);
+  // const [content, setContent] = useState("");
 
-  // 打开弹窗（新增书架 or 书籍）
-  const [isAddShelfOpen, setIsAddShelfOpen] = useState(false);
-  const [isAddBookOpen, setIsAddBookOpen] = useState(false);
-  const prevState = useRef({ isAddShelfOpen, isAddBookOpen }); // useRef 用于记录上一次的状态；
+  // const toSave = async () => {
+  //   console.log(111, content);
+  //   const res = await api.doc.put({ id: activeDoc, des: content });
+  // };
 
-  // 进入详情
-  const goDtl = (book_id: string) => {
-    navigate({
-      pathname: '/detail',
-      search:
-        '?' +
-        new URLSearchParams({
-          book_id,
-        }).toString(),
-    });
+  const createDoc = async () => {
+    // const params: any = { name: "无标题文档", book_id };
+    // params.pid = activeDoc;
+    // const res = await api.doc.add(params);
+    // syncDocs();
   };
+  // const onClick: MenuProps["onClick"] = ({ key }) => {
+  //   if (key === "add") {
+  //     createDoc();
+  //   }
+  // };
+
+  // const onClickDoc = (id) => {
+  //   setActiveDoc(id);
+  // };
+
+  // const syncContent = async () => {
+  //   if (activeDoc) {
+  //     const res = await api.doc.get({ id: activeDoc });
+  //     setContent(res.des || "");
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   syncContent();
+  // }, [activeDoc]);
 
   useEffect(() => {
-    syncShelfsIncludeBook();
-  }, []);
-
-  useEffect(() => {
-    const prev = prevState.current;
-    const createShelfOver = isAddShelfOpen !== prev.isAddShelfOpen && !isAddShelfOpen;
-    const createBookOver = isAddBookOpen !== prev.isAddBookOpen && !isAddBookOpen;
-    if (createShelfOver || createBookOver) {
-      syncShelfsIncludeBook();
+    if (docId) {
+      syncDoc();
     }
-  }, [isAddShelfOpen, isAddBookOpen]);
+  }, [docId]);
 
   return (
-    <div className="books-cmp">
-      <div className="tools">
-        <div className="right">
-          <Input.Search placeholder="搜索知识库" onSearch={onSearch} enterButton />
-        </div>
-
-        <div className="left">
-          <Space>
-            {
-              isLogin ? <>
-                <Button type="primary" onClick={() => setIsAddShelfOpen(true)}>
-                  <PlusOutlined />
-                  书架
-                </Button>
-                <Button type="primary" onClick={() => setIsAddBookOpen(true)}>
-                  <PlusOutlined />
-                  知识库
-                </Button></> : <Button type="primary">
-                <PlusOutlined />
-                登录
-              </Button>
-            }
-
-          </Space>
-        </div>
-      </div>
-      {shelfsInclBook.map((item) => (
-        <div className="types-includebook" key={item.id}>
-          <div className="type-includebook">
-            <div className="type">
-              <img src={libImg} />
-              {item.name}
-            </div>
-            <div className="books">
-              {item.book.length > 0 ? (
-                item.book.map((book) => (
-                  <div className="book" key={book.id} onClick={() => goDtl(book.id)}>
-                    <div className="book-some">
-                      <div className="name">{book.name}</div>
-                      <div className="des">{book.des}</div>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="no-book">
-                  <img src={nobookImg} />
-                  <div>该书架暂无书籍！</div>
-                </div>
-              )}
+    <div className="detail-cmp">
+      <LeftBar setDocs={setDocs}/>
+      <div className="main">
+        {/* <div className="top-bar">
+          <div></div>
+          <div>
+            <Button type="primary" onClick={toSave} size="small">
+              保存
+            </Button>
+          </div>
+        </div> */}
+        {docs.length > 0 ? (
+          <div className="have-data">
+            <Editor content={docDtl} setContent={setDocDtl} readOnly={true}/>
+          </div>
+        ) : (
+          <div className="no-data">
+            <div>
+              <img src={noDocImg} />
+              <div onClick={createDoc}>
+                <PlusCircleOutlined /> 创建第一篇
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-
-      <AddBook open={isAddBookOpen} setOpen={setIsAddBookOpen} />
-      <AddType open={isAddShelfOpen} setOpen={setIsAddShelfOpen} />
+        )}
+      </div>
     </div>
   );
 }

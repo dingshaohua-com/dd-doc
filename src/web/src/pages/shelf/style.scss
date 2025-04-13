@@ -1,0 +1,93 @@
+@mixin flex-base {
+  display: flex;
+  align-items: center;
+}
+
+@mixin space-between {
+  @include flex-base;
+  justify-content: space-between;
+}
+
+.books-cmp {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  max-width: 1024px;
+  background-color: rgba($color: #000000, $alpha: 0.01);
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 10px;
+
+  .tools {
+    @include space-between;
+    gap: 20px;
+
+    & > div {
+      @include flex-base;
+    }
+  }
+
+  .types-includebook {
+    margin-top: 10px;
+
+    .type-includebook {
+      margin-bottom: 10px;
+
+      .type {
+        display: flex;
+        align-items: center;
+        background-color: rgba($color: #000000, $alpha: 0.04);
+        padding: 2px;
+
+        img {
+          width: 40px;
+        }
+      }
+
+      .books {
+        min-height: 100px;
+        padding: 10px;
+        border: rgba($color: #000000, $alpha: 0.1) solid 1px;
+        display: flex;
+        gap: 20px;
+        .book {
+          border-radius: 8px;
+          width: 140px;
+          height: 200px;
+          background-image: url(@/assets/book.png);
+          background-size: cover;
+          cursor: pointer;
+          @include flex-base;
+          justify-content: center;
+          .book-some {
+            text-align: center;
+            color: white;
+            .name {
+              font-size: 18px;
+              font-weight: 700;
+            }
+            .des {
+              font-size: 13px;
+            }
+          }
+        }
+        .no-book {
+          box-sizing: border-box;
+          padding: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          img {
+            width: 60px;
+          }
+          div {
+            margin-left: 20px;
+            font-size: 16px;
+            color: rgba($color: #000000, $alpha: 0.6);
+          }
+        }
+      }
+    }
+  }
+}
