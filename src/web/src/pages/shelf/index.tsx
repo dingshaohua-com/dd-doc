@@ -45,7 +45,7 @@ function Shelf() {
       search:
         '?' +
         new URLSearchParams({
-          book_id,
+          id:book_id,
         }).toString(),
     });
   };

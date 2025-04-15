@@ -7,7 +7,7 @@ import { useNavigate, useSearchParams } from 'react-router';
 
 const LeftBar: FC<any> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const bookId = searchParams.get('book_id');
+  const bookId = searchParams.get('id');
   const docId = searchParams.get('doc_id');
 
   const navigate = useNavigate();

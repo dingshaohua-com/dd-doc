@@ -13,6 +13,8 @@ router.get("/", async (ctx, next) => {
 // 登录
 router.post("/login", async (ctx, next) => {
   const user = await prisma.user.findFirst({ where: ctx.request.body });
+  console.log(111, user);
+  
   if(user){
     ctx.body = JsonResult.success({
       token: genToken(user)

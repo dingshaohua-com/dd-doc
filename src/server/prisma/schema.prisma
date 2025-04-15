@@ -14,8 +14,8 @@ model book {
   des         String?   @db.VarChar(255)
   cover       String?   @db.VarChar(255)
   create_time DateTime? @default(now()) @db.Timestamp(0)
-  shelf_id    Int?
-  shelf       shelf?    @relation(fields: [shelf_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "book_ibfk_1")
+  shelf_id    Int
+  shelf       shelf     @relation(fields: [shelf_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "book_ibfk_1")
   doc         doc[]
 
   @@index([shelf_id], map: "type_id")
