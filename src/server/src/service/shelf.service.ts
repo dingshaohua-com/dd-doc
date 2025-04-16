@@ -2,8 +2,6 @@ import { PrismaClient } from '@prisma/client';
 import {reoParams} from "../utils/gen-prisma-params.ts";
 
 const prisma = new PrismaClient();
-
-
 export const queryOne = (params) => {
     const {other, include} = reoParams(params);
     return prisma.shelf.findFirst({

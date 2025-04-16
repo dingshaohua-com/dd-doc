@@ -28,6 +28,8 @@ const LeftBar: FC<any> = (props) => {
   const syncBook = async () => {
     const res = await api.book.get({ id: bookId, includeDoc: true });
     setBook(res);
+    console.log(11222, res);
+    
     props.setDocs(res.docs)
     if (docId) {
       setActiveDoc(docId);
@@ -39,6 +41,7 @@ const LeftBar: FC<any> = (props) => {
      
     }
   };
+
 
   const items = [
     {

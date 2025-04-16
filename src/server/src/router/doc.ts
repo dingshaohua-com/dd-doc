@@ -4,33 +4,34 @@ import _ from 'lodash';
 import toTree from '../utils/to-tree';
 import JsonResult from '../utils/json-result';
 import checkDocOwnership from '../middleware/check-doc-ownership.ts'
+import { queryOne, queryList, create } from "../service/doc.service.ts"
 
 const prisma = new PrismaClient();
 
-const queryOne = async (ctx) => {
-  const results = await prisma.doc.findFirst({
-    where: ctx.query,
-  });
-  return results;
-};
+// const queryOne = async (ctx) => {
+//   const results = await prisma.doc.findFirst({
+//     where: ctx.query,
+//   });
+//   return results;
+// };
 
-const queryList = async (ctx) => {
-  const results = await prisma.doc.findMany({
-    where: ctx.query,
-    omit: { des: true },
-  });
-  return toTree(results);
-};
+// const queryList = async (ctx) => {
+//   const results = await prisma.doc.findMany({
+//     where: ctx.query,
+//     omit: { des: true },
+//   });
+//   return toTree(results);
+// };
 
 const router = new Router({ prefix: '/doc' });
-router.get('/',checkDocOwnership, async (ctx) => {
+router.get('/', async (ctx) => {
   ctx.query.book_id && (ctx.query.book_id = Number(ctx.query.book_id) as any);
   const isQueryOne = ctx.query.id;
   if (isQueryOne) {
     ctx.query.id = Number(ctx.query.id) as any;
-    ctx.body = JsonResult.success(await queryOne(ctx));
+    ctx.body = JsonResult.success(await queryOne(ctx.query, ctx.state.user));
   } else {
-    ctx.body = JsonResult.success(await queryList(ctx));
+    ctx.body = JsonResult.success(await queryList(ctx.query, ctx.state.user));
   }
 });
 

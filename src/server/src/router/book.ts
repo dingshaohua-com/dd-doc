@@ -1,16 +1,13 @@
 import _ from 'lodash';
 import Router from '@koa/router';
 import JsonResult from '../utils/json-result';
-import { queryOne, queryList, create } from "../service/shelf-service.ts"
+import { queryOne, queryList, create } from "../service/book.service.ts"
 
 const router = new Router({ prefix: '/book' });
 router.get('/', async (ctx) => {
   const query = ctx.query as any;
-  if (ctx.state.user) {
-    query.user_id = ctx.state.user.id;
-  }
   const haveId = query.id && (query.id = Number(query.id));
-  const res = haveId ? await queryOne(query) : await queryList(query);
+  const res = haveId ? await queryOne(query, ctx.state.user) : await queryList(query, ctx.state.user);
   ctx.body = JsonResult.success(res);
 });
 

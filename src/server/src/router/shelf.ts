@@ -2,7 +2,7 @@
 import Router from '@koa/router';
 import _ from 'lodash';
 import JsonResult from '../utils/json-result';
-import { queryOne, queryList, create } from "../service/shelf-service.ts"
+import { queryOne, queryList, create } from "../service/shelf.service.ts"
 
 
 const router = new Router({ prefix: '/shelf' });
