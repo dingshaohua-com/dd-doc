@@ -14,9 +14,10 @@ const Editor: React.FC<EditorProps> = (props) => {
   };
   return (
     <div className="editor-wrapp">
-      <div className="menubar-wrapp">
+      {!props.readOnly && <div className="menubar-wrapp" >
         <MenuBar editor={{} as any} />
-      </div>
+      </div>}
+
 
       <div className="editor">
         {!props.readOnly && <textarea className="md-editor" value={props.content} onInput={onContentIpt}></textarea>}

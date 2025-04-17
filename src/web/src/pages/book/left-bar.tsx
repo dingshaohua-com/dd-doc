@@ -4,10 +4,10 @@ import backImg from '@/assets/back.svg';
 import DocNav from '@/components/doc-nav';
 import { FC, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
+import emitter from '@/emitter';
 
 const LeftBar: FC<any> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const bookId = searchParams.get('id');
   const docId = searchParams.get('doc_id');
 
   const navigate = useNavigate();
@@ -23,25 +23,6 @@ const LeftBar: FC<any> = (props) => {
     setSearchParams(searchParams); // 自动更新 URL，无刷新
   };
 
-  // 获取书籍详情
-  const [book, setBook] = useState<any>({});
-  const syncBook = async () => {
-    const res = await api.book.get({ id: bookId, includeDoc: true });
-    setBook(res);
-    console.log(11222, res);
-    
-    props.setDocs(res.docs)
-    if (docId) {
-      setActiveDoc(docId);
-    } else {
-      if(res.docs.length>0){
-        const firstDoc = res.docs.at(0).id;
-        setActiveDocWithUrl(firstDoc);
-      }
-     
-    }
-  };
-
 
   const items = [
     {
@@ -49,21 +30,30 @@ const LeftBar: FC<any> = (props) => {
       label: <span>新增</span>,
     },
     {
-      key: '2',
+      key: 'edit',
+      label: <span>编辑</span>,
+    },
+    {
+      key: 'remove',
       label: <span>删除</span>,
     },
   ];
 
-  const onDropdownClick = (key, node)=>{
-    console.log(key, node);
-    
+  const onDropdownClick = (key, node) => {
+    emitter.emit('onDropdownClick', {key, node});
+
   }
 
   useEffect(() => {
-    // syncType();
-    // syncDocs();
-    syncBook();
-  }, []);
+    if (docId) {
+      setActiveDoc(docId);
+    } else {
+      if (props.book.docs.length > 0) {
+        const firstDoc = props.book.docs.at(0).id;
+        setActiveDocWithUrl(firstDoc);
+      }
+    }
+  }, [props.book]);
 
 
   return (
@@ -72,11 +62,13 @@ const LeftBar: FC<any> = (props) => {
         <img className="back" src={backImg} onClick={goBack} />
         <div className="title-inner">
           <img src={libImg} />
-          {book.name}
+          {props.book.name}
         </div>
       </div>
       <Divider />
-      <div className="docs">{book?.docs?.length > 0 && <DocNav data={book.docs} dropdownItems={items} onDropdownClick={onDropdownClick}  activeId={activeDoc} setActiveId={setActiveDocWithUrl} />}</div>
+      <div className="docs">
+        {props.book?.docs?.length > 0 && <DocNav data={props.book.docs} dropdownItems={items} onDropdownClick={onDropdownClick} activeId={activeDoc} setActiveId={setActiveDocWithUrl} />}
+      </div>
     </div>
   );
 };

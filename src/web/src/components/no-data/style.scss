@@ -1,0 +1,31 @@
+
+
+.no-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+    .content {
+        img {
+            width: 300px;
+        }
+
+        .text {
+            font-size: 14px;
+            color: #999;
+            margin-top: 10px;
+            text-align: center;
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .no-data {
+        .content {
+            img {
+                width: 160px;
+            }
+        }
+    }
+}

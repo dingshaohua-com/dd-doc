@@ -1,3 +1,4 @@
+import toTree from '../utils/to-tree';
 import { PrismaClient } from '@prisma/client';
 import { reoParams } from '../utils/gen-prisma-params';
 
@@ -5,14 +6,24 @@ const prisma = new PrismaClient();
 export const queryOne = async (params, user) => {
   const {other, include} = reoParams(params);
   const results:any = await prisma.book.findFirst({
-    where: other,
+    where: {
+      ...other,
+      shelf: {
+        user: {
+          id: user.id
+        }
+      }
+    },
     omit: { des: true },
     include
   });
-  results.docs = results.doc;
-  delete results.doc;
-  
+  console.log(results);
+  if (results) {
+    results.docs = toTree(results.doc);
+    delete results.doc;
+  }
   return results;
+ 
 };
 
 export const queryList = async (params, user) => {

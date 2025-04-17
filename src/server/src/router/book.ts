@@ -8,7 +8,7 @@ router.get('/', async (ctx) => {
   const query = ctx.query as any;
   const haveId = query.id && (query.id = Number(query.id));
   const res = haveId ? await queryOne(query, ctx.state.user) : await queryList(query, ctx.state.user);
-  ctx.body = JsonResult.success(res);
+  ctx.body = res?JsonResult.success(res):JsonResult.failed("未找到数据");
 });
 
 router.post('/', async (ctx) => {

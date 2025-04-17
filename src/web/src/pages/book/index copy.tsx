@@ -4,34 +4,17 @@ import { useEffect, useState } from 'react';
 import Editor from '@/components/editor';
 import noDocImg from '@/assets/no-doc.svg';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import NoData from '@/components/no-data';
-import { Skeleton } from 'antd';
 
 import type { MenuProps } from 'antd';
 import LeftBar from './left-bar';
 import { useNavigate, useSearchParams } from 'react-router';
-import emitter from '@/emitter';
 
 function Book() {
   const [searchParams] = useSearchParams();
   const docId = searchParams.get('doc_id');
-  const bookId = searchParams.get('id');
+  const bookId = searchParams.get('book_id');
 
-  // 获取书籍详情
-  const [reqOver, setReqOver] = useState(false);
-  const [book, setBook] = useState<any>();
-  const syncBook = async () => {
-    try {
-      const res = await api.book.get({ id: bookId, includeDoc: true });
-      setBook(res);
-    } finally {
-      setReqOver(true);
-    }
-
-  };
-
-
-
+  const [docs, setDocs] = useState([]);
 
   const [docDtl, setDocDtl] = useState('');
   const syncDoc = async () => {
@@ -48,7 +31,7 @@ function Book() {
   // };
 
   const createDoc = async () => {
-    const params: any = { name: "无标题文档", book_id: bookId };
+    const params: any = { name: "无标题文档", book_id:bookId };
     // params.pid = activeDoc;
     const res = await api.doc.add(params);
     // syncDocs();
@@ -70,6 +53,9 @@ function Book() {
   //   }
   // };
 
+  // useEffect(() => {
+  //   syncContent();
+  // }, [activeDoc]);
 
   useEffect(() => {
     if (docId) {
@@ -77,43 +63,33 @@ function Book() {
     }
   }, [docId]);
 
-  const [readOnly, setReadOnly] = useState(true);
-  useEffect(() => {
-    syncBook();
-    emitter.on('onDropdownClick', ({key, node})=>{
-      console.log('onDropdownClick', key, node);
-      if(key === 'edit'){
-        setReadOnly(false);
-      }
-    });
-
-  }, []);
-
   return (
-    <div className="book">
-      {
-        reqOver ? <>{book ? <div className='book-dtl'>
-          <LeftBar book={book} />
-          <div className="main">
-            {docDtl ? (
-              <div className="have-data">
-                <Editor content={docDtl} setContent={setDocDtl} readOnly={readOnly} />
-              </div>
-            ) : (
-              <div className="no-data">
-                <div>
-                  <img src={noDocImg} />
-                  <div onClick={createDoc}>
-                    <PlusCircleOutlined /> 创建第一篇
-                  </div>
-                </div>
-              </div>
-            )}
+    <div className="detail-cmp">
+      <LeftBar setDocs={setDocs}/>
+      <div className="main">
+        {/* <div className="top-bar">
+          <div></div>
+          <div>
+            <Button type="primary" onClick={toSave} size="small">
+              保存
+            </Button>
           </div>
-        </div> : <NoData path="/shelf" />}</> : <Skeleton />
-      }
-
-
+        </div> */}
+        {docs.length > 0 ? (
+          <div className="have-data">
+            <Editor content={docDtl} setContent={setDocDtl} readOnly={true}/>
+          </div>
+        ) : (
+          <div className="no-data">
+            <div>
+              <img src={noDocImg} />
+              <div onClick={createDoc}>
+                <PlusCircleOutlined /> 创建第一篇
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
