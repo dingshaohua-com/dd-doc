@@ -11,6 +11,7 @@ import type { MenuProps } from 'antd';
 import LeftBar from './left-bar';
 import { useNavigate, useSearchParams } from 'react-router';
 import emitter from '@/emitter';
+import { Button, Divider, Space } from 'antd';
 
 function Book() {
   const [searchParams] = useSearchParams();
@@ -80,9 +81,9 @@ function Book() {
   const [readOnly, setReadOnly] = useState(true);
   useEffect(() => {
     syncBook();
-    emitter.on('onDropdownClick', ({key, node})=>{
+    emitter.on('onDropdownClick', ({ key, node }) => {
       console.log('onDropdownClick', key, node);
-      if(key === 'edit'){
+      if (key === 'edit') {
         setReadOnly(false);
       }
     });
@@ -97,7 +98,15 @@ function Book() {
           <div className="main">
             {docDtl ? (
               <div className="have-data">
-                <Editor content={docDtl} setContent={setDocDtl} readOnly={readOnly} />
+                <Editor content={docDtl} setContent={setDocDtl} readOnly={readOnly} rightBar={<Space>
+                  <Button type="primary" size="small" onClick={()=>setReadOnly(true)}>
+                    退出编辑
+                  </Button>
+                  <Button type="primary" size="small">
+                    保存
+                  </Button>
+                </Space>}>
+                </Editor>
               </div>
             ) : (
               <div className="no-data">

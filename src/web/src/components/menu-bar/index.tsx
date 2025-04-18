@@ -1,9 +1,10 @@
 import './style.scss';
 import Heading from './cmp/heading';
-import { Button, Divider } from 'antd';
+import { Button, Divider, Space } from 'antd';
 // import FontStyle from './cmp/font-style'
 
-const MenuBar = ({ editor }) => {
+const MenuBar = ({ rightBar:RightBar, editor }) => {
+  
   if (!editor) {
     return null;
   }
@@ -19,9 +20,9 @@ const MenuBar = ({ editor }) => {
       <Formula editor={editor}/> */}
       </div>
       <div>
-        <Button type="primary" size="small">
-          保存
-        </Button>
+       {RightBar}
+
+
       </div>
     </div>
   );

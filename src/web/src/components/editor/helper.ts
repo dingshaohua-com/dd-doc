@@ -21,4 +21,5 @@ export interface EditorProps {
   readOnly:boolean;
   content: string;
   setContent: React.Dispatch<React.SetStateAction<string>>;
+  rightBar?: React.ReactNode;
 }
